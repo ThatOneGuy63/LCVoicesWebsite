@@ -1,4 +1,0 @@
-$waiCompuserInfo = {};
-
-(function(){
-    var ComponentPath = '/Y[wai]/comp_user';
