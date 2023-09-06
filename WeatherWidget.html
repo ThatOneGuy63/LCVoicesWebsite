@@ -28,7 +28,7 @@
 
     socket.onmessage = (event) => {
      const message = JSON.parse(event.data);
-     if (message.type === "ack") {
+     if (message.type == "ack") {
       document.write("Acknowledgement received.");
      }
     };
