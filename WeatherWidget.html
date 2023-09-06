@@ -11,28 +11,30 @@
 
   <script>
     const accessToken = "3b35536d-6dea-4d8c-bf74-85dba517c2ba";
-    const deviceID = 1110;
+    const deviceID = 248928;
     const socket = new WebSocket(`wss://ws.weatherflow.com/swd/data?token=${accessToken}`);
-
-    socket.onopen = () => {
-      const listenStartMessage = {
-        type: "listen_start",
-        device_id: deviceID,
-        id: "listen_start_id"
-      };
-      socket.send(JSON.stringify(listenStartMessage));
+    document.write("Start Program");
+    
+    socket.onopen = () => { 
+     const listenStartMessage = {
+       type: "listen_start",
+       device_id: deviceID,
+       id: "listen_start_id"
+     };
+     socket.send(JSON.stringify(listenStartMessage));
+     document.write("WebSocket connection open.");
+     document.write(JSON.stringify(listenStartMessage));
     };
 
     socket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      if (message.type === "obs_air" && message.device_id === deviceID) {
-        const temperature = message.obs[0].air_temperature;
-        document.getElementById("temperature").textContent = `Temperature: ${temperature}°C`;
-      }
+     const message = JSON.parse(event.data);
+     if (message.type === "ack") {
+      document.write("Acknowledgement received.");
+     }
     };
 
     socket.onclose = () => {
-      console.log("WebSocket connection closed.");
+      document.write("WebSocket connection closed.");
     };
 
     socket.onerror = (error) => {
@@ -41,11 +43,13 @@
 
     window.onbeforeunload = () => {
       const listenStopMessage = {
-        type: "listen_stop",
+    type: "listen_stop",
         device_id: deviceID,
         id: "listen_stop_id"
       };
       socket.send(JSON.stringify(listenStopMessage));
+    
+    
     };
   </script>
 </body>
