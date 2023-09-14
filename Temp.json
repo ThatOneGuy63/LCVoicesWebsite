@@ -1,0 +1,65 @@
+[
+    {
+      "type": "connection_opened"
+    },
+    {
+      "type": "ack",
+      "id": "listen_start_id"
+    },
+    {
+      "status": {
+        "status_code": 0,
+        "status_message": "SUCCESS"
+      },
+      "device_id": 296093,
+      "type": "obs_st",
+      "source": "cache",
+      "summary": {
+        "pressure_trend": "falling",
+        "strike_count_1h": 0,
+        "strike_count_3h": 0,
+        "precip_total_1h": 0.0,
+        "precip_accum_local_yesterday": 23.128678,
+        "precip_accum_local_yesterday_final": 9.338173,
+        "precip_analysis_type_yesterday": 1,
+        "feels_like": 19.5,
+        "heat_index": 19.5,
+        "wind_chill": 19.5,
+        "raining_minutes": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "dew_point": 11.3,
+        "wet_bulb_temperature": 14.6,
+        "wet_bulb_globe_temperature": 18.4,
+        "air_density": 1.19323,
+        "delta_t": 4.9,
+        "precip_minutes_local_day": 0,
+        "precip_minutes_local_yesterday": 325
+      },
+      "obs": [
+        [
+          1694703251,
+          0.26,
+          1.03,
+          1.58,
+          303,
+          3,
+          1002.4,
+          19.5,
+          59,
+          74673,
+          5.22,
+          572,
+          0,
+          0,
+          0,
+          0,
+          2.58,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ]
+  
