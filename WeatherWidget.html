@@ -1,55 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Temperature Display</title>
+  <title>Temperature Widget</title>
+  <style>
+    #temperature-widget {
+      font-weight: bold;
+      color: #88091e; /* Color */
+    }
+  </style>
 </head>
 <body>
-  <h1>Temperature Display</h1>
-  <div id="temperature"></div>
+  <div id="temperature-widget">
+    Temperature: <span id="temperature-value">N/A</span> °F
+  </div>
 
   <script>
-    const accessToken = "3b35536d-6dea-4d8c-bf74-85dba517c2ba";
+    const accessToken = '3b35536d-6dea-4d8c-bf74-85dba517c2ba';
     const deviceID = 248928;
     const socket = new WebSocket(`wss://ws.weatherflow.com/swd/data?token=${accessToken}`);
-    document.write("Start Program");
-    
-    socket.onopen = () => { 
-     const listenStartMessage = {
-       type: "listen_start",
-       device_id: deviceID,
-       id: "listen_start_id"
-     };
-     socket.send(JSON.stringify(listenStartMessage));
-     document.write("WebSocket connection open.");
-     document.write(JSON.stringify(listenStartMessage));
+    const temperatureElement = document.getElementById('temperature-value');
+
+    socket.onopen = () => {
+      const listenStartMessage = {
+        type: 'listen_start',
+        device_id: deviceID,
+        id: 'listen_start_id'
+      };
+      socket.send(JSON.stringify(listenStartMessage));
+      console.log('WebSocket connection open.');
     };
 
     socket.onmessage = (event) => {
-     const message = JSON.parse(event.data);
-     if (message.type == "ack") {
-      document.write("Acknowledgement received.");
-     }
-    };
+  const message = JSON.parse(event.data);
+  switch (message.type) {
+    case 'obs_air':
+      const temperature = message.obs[0].air_temperature;
+      temperatureElement.textContent = temperature.toFixed(2); // Display temperature with 2 decimal places
+      break;
+    case 'ack':
+      console.log('Acknowledgement received.');
+      break;
+    // Add more cases for other message types if needed
+    default:
+      // Handle unknown message types here
+  }
+};
 
     socket.onclose = () => {
-      document.write("WebSocket connection closed.");
+      console.log('WebSocket connection closed.');
     };
 
     socket.onerror = (error) => {
-      document.write("WebSocket error:", error);
+      console.error('WebSocket error:', error);
     };
 
     window.onbeforeunload = () => {
       const listenStopMessage = {
-    type: "listen_stop",
+        type: 'listen_stop',
         device_id: deviceID,
-        id: "listen_stop_id"
+        id: 'listen_stop_id'
       };
       socket.send(JSON.stringify(listenStopMessage));
-    
-    
     };
   </script>
 </body>
