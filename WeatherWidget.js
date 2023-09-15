@@ -3,9 +3,24 @@ const deviceID = 296093;
 const socket = new WebSocket(`wss://ws.weatherflow.com/swd/data?token=${accessToken}`);
 
 // Function to update the HTML widget with weather data
-function updateWeatherWidget(temperature) {
+function updateWeatherWidget(temperature, weatherType) {
   const weatherWidget = document.getElementById('weather-widget');
-  weatherWidget.textContent = `Temperature: ${temperature.toFixed(0)} °F`;
+	weatherWidget.innerHTML = `${temperature.toFixed(0)} °F & ${weatherType}<br>At Landmark College`;
+
+}
+
+// Function to map precipitation type to weather conditions
+function mapPrecipitationType(precipitationType) {
+  switch (precipitationType) {
+    case 0:
+      return 'Sunny';
+    case 1:
+      return 'Rain';
+    case 2:
+      return 'Hail';
+    default:
+      return 'Unknown';
+  }
 }
 
 socket.onopen = () => {
@@ -23,10 +38,12 @@ socket.onmessage = (event) => {
   console.log(event.data);
   switch (message.type) {
     case 'obs_st':
-      const temperature = message.summary.feels_like;
+      const temperature = message.obs[0][7]; // Air Temperature in Celsius
+      const precipitationType = message.obs[0][13]; // Precipitation Type
+      const weatherType = mapPrecipitationType(precipitationType);
       // Update the HTML widget with the weather data
-      updateWeatherWidget((temperature * 9 / 5) + 32);
-      console.log(`Temperature: ${temperature} °C`);
+      updateWeatherWidget((temperature * 9 / 5) + 32, weatherType);
+      console.log(`Temperature: ${temperature} °C, Weather: ${weatherType}`);
       break;
 
     case 'ack':
