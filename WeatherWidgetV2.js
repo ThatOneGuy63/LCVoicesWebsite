@@ -11,7 +11,7 @@ function updateWeatherWidget(temperature, conditions) {
   weatherWidget.innerHTML = `<a href="${tempestDisplay}" target="_blank">${temperature} °F & ${conditions}<br>At Landmark College</a>`;
 }
 
-// Fetch both weather data and update the widget when both requests are complete
+// Fetch both temp and condition data and update the widget when both requests are complete
 Promise.all([fetch(conditionsUrl, options), fetch(temperatureUrl, options)])
   .then(([conditionsResponse, temperatureResponse]) => {
     if (!conditionsResponse.ok || !temperatureResponse.ok) {
