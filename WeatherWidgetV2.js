@@ -8,7 +8,20 @@ const options = { method: 'GET', headers: { accept: 'application/json' } };
 // Function to update the HTML widget with weather data
 function updateWeatherWidget(temperature, conditions) {
   const weatherWidget = document.getElementById('weather-widget');
-  weatherWidget.innerHTML = `<a href="${tempestDisplay}" target="_blank">${temperature} °F & ${conditions}<br>At Landmark College</a>`;
+  const tempestDisplay = 'https://tempestwx.com/station/118392';
+
+  // Create a new link element
+  const link = document.createElement('a');
+  link.href = tempestDisplay;
+  link.target = '_blank';
+  link.innerHTML = `${temperature} °F & ${conditions}<br>At Landmark College`;
+
+  // Add the aria-label attribute to the link
+  link.setAttribute('aria-label', `Opens in a new tab: ${temperature} degrees Fahrenheit and ${conditions} at Landmark College`);
+
+  // Replace the content of the weather widget with the link
+  weatherWidget.innerHTML = '';
+  weatherWidget.appendChild(link);
 }
 
 // Fetch both temp and condition data and update the widget when both requests are complete
@@ -21,7 +34,7 @@ Promise.all([fetch(conditionsUrl, options), fetch(temperatureUrl, options)])
   })
   .then(([conditionsData, temperatureData]) => {
     const conditions = conditionsData.current_conditions.conditions;
-    const airTemp = temperatureData.obs[0][2];
+    const airTemp = temperatureData.obs[0][2].toFixed(0);
     updateWeatherWidget(airTemp, conditions);
   })
   .catch(err => console.error(err));
