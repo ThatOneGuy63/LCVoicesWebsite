@@ -7,13 +7,21 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <audio id="audioPlayer" controls>
+  <div class="container">
+    <div class="audio-controls">
+      <button class="playPauseButton">Click me</button>
+      <div class="loader"></div>
+    </div>
+    <div class="title-area">
+      <h2>Title Area</h2>
+      <!-- You can add any other content for the title area here -->
+    </div>
+  </div>
+
+  <audio id="audioPlayer">
     <source src="http://wlmc.landmark.edu:8000/stream" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
-
-  <button id="playButton">Play</button>
-  <button id="pauseButton">Pause</button>
 
   <script src="script.js"></script>
 </body>
