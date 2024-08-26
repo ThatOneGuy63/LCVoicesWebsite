@@ -1,0 +1,40 @@
+.playPauseButton {
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  width: 0;
+  height: 74px;
+  border-color: transparent transparent transparent #202020;
+  transition: 100ms all ease;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 37px 0 37px 60px;
+  color: transparent; /* Hides the text by setting its color to transparent */
+}
+
+.playPauseButton.paused {
+  border-style: double;
+  border-width: 0px 0 0px 60px;
+}
+
+.playPauseButton:hover {
+  border-color: transparent transparent transparent #404040;
+}
+
+/* Styles for the container */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Styles for the audio controls (button and loader) */
+.audio-controls {
+  display: flex;
+  align-items: center;
+}
