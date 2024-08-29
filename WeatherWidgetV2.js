@@ -25,16 +25,21 @@ function updateWeatherWidget(temperature, conditions) {
 }
 
 // Fetch both temp and condition data and update the widget when both requests are complete
-Promise.all([fetch(conditionsUrl, options), fetch(temperatureUrl, options)])
-  .then(([conditionsResponse, temperatureResponse]) => {
-    if (!conditionsResponse.ok || !temperatureResponse.ok) {
-      throw new Error('Failed to fetch weather data');
-    }
-    return Promise.all([conditionsResponse.json(), temperatureResponse.json()]);
-  })
-  .then(([conditionsData, temperatureData]) => {
-    const conditions = conditionsData.current_conditions.conditions;
-    const airTemp = temperatureData.obs[0][2].toFixed(0);
-    updateWeatherWidget(airTemp, conditions);
-  })
-  .catch(err => console.error(err));
+function fetchWeatherData() {
+  Promise.all([fetch(conditionsUrl, options), fetch(temperatureUrl, options)])
+    .then(([conditionsResponse, temperatureResponse]) => {
+      if (!conditionsResponse.ok || !temperatureResponse.ok) {
+        throw new Error('Failed to fetch weather data');
+      }
+      return Promise.all([conditionsResponse.json(), temperatureResponse.json()]);
+    })
+    .then(([conditionsData, temperatureData]) => {
+      const conditions = conditionsData.current_conditions.conditions;
+      const airTemp = temperatureData.obs[0][2].toFixed(0);
+      updateWeatherWidget(airTemp, conditions);
+    })
+    .catch(err => console.error(err));
+}
+//call fetchWeatherData function when the page loads and every 15 minutes
+fetchWeatherData ();
+setInterval(fetchWeatherData, 900000);
