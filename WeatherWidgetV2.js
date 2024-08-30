@@ -43,3 +43,10 @@ function fetchWeatherData() {
 //call fetchWeatherData function when the page loads and every 15 minutes
 fetchWeatherData ();
 setInterval(fetchWeatherData, 900000);
+
+// Fetch weather data when the tab is visible (tab refresh)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    fetchWeatherData();
+  }
+});
