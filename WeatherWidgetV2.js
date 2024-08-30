@@ -8,7 +8,7 @@ const options = { method: 'GET', headers: { accept: 'application/json' } };
 // Function to update the HTML widget with weather data
 function updateWeatherWidget(temperature, conditions) {
   const weatherWidget = document.getElementById('weather-widget');
-  const tempestDisplay = 'https://tempestwx.com/station/118392';
+  const tempestDisplay = `https://tempestwx.com/station/${stationID}`;
 
   // Create a new link element
   const link = document.createElement('a');
@@ -40,9 +40,9 @@ function fetchWeatherData() {
     })
     .catch(err => console.error(err));
 }
-//call fetchWeatherData function when the page loads and every 15 minutes
+//call fetchWeatherData function when the page loads and every hour
 fetchWeatherData ();
-setInterval(fetchWeatherData, 900000);
+setInterval(fetchWeatherData, 3600000);
 
 // Fetch weather data when the tab is visible (tab refresh)
 document.addEventListener('visibilitychange', () => {
